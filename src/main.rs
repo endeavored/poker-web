@@ -1,5 +1,5 @@
 mod engine;
 
 fn main() {
-    println!("Hello, world!");
+    println!("[Poker Web] Launching poker web...");
 }

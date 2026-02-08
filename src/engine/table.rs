@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::vec;
 
 use crate::engine::hand;
 use crate::engine::player;
@@ -12,6 +13,7 @@ pub struct HoldEmTablePlayer {
 }
 
 pub struct HoldEmTable {
+    bet_history: Vec<u32>,
     dealer_location: u8,
     player_list: HashMap<player::PlayerId, HoldEmTablePlayer>,
     pot: u32,
