@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::engine::hand;
 use crate::engine::player;
 
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub struct HoldEmTablePlayer {
     active: bool,
     hand: hand::HoldEmHand,

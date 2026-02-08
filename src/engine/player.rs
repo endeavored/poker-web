@@ -1,4 +1,4 @@
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub struct PlayerId(u32);
 
 pub struct Player {

@@ -1,4 +1,4 @@
 use crate::engine::card;
 
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub struct HoldEmHand(card::Card, card::Card);
