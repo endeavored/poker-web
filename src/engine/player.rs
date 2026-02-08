@@ -1,3 +1,6 @@
-struct Player {
+#[derive(Hash)]
+pub struct PlayerId(u32);
+
+pub struct Player {
     stack: u32,
 }

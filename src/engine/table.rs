@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 
-struct Table {
-    playerList: HashSet<i32>, // This will be the player IDs
-    maxTableSize: uint8,
+use crate::engine::player;
+
+pub struct Table {
+    player_list: HashSet<player::PlayerId>,
+    max_table_size: u8,
 }
