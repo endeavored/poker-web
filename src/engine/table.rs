@@ -1,10 +1,12 @@
 use std::collections::HashMap;
 
+use crate::engine::card;
 use crate::engine::player;
 
 #[derive(Hash)]
 pub struct TablePlayer {
     active: bool,
+    hand: (card::Card, card::Card),
     stack: u32,
     position: u8,
 }
