@@ -1,4 +1,4 @@
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub enum Suit {
     Spade,
     Diamond,
@@ -6,7 +6,7 @@ pub enum Suit {
     Club,
 }
 
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub enum Rank {
     Two,
     Three,
@@ -23,7 +23,7 @@ pub enum Rank {
     Ace,
 }
 
-#[derive(Hash)]
+#[derive(Hash, Eq, PartialEq)]
 pub struct Card {
     suit: Suit,
     rank: Rank,
