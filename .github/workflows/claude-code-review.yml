@@ -44,5 +44,9 @@ jobs:
             Use the severity format and tone described in CLAUDE.md.
             End with the summary format from CLAUDE.md (blocking count, overall, next step).
             Do NOT write or modify code — only review.
-            Always leave a review — if there are no issues, approve the PR with a short LGTM.
+
+            IMPORTANT: You MUST submit your review using the gh CLI. After writing your review:
+            - If no blocking issues: gh pr review --approve --body "your review"
+            - If blocking issues found: gh pr review --request-changes --body "your review"
+            - If only nits/warnings: gh pr review --comment --body "your review"
 
