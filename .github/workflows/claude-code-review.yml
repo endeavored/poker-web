@@ -1,30 +1,19 @@
 name: Claude Code Review
-
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+    types: [opened, ready_for_review, reopened]
 
 jobs:
   claude-review:
-    # Optional: Filter by PR author
-    # if: |
-    #   github.event.pull_request.user.login == 'external-contributor' ||
-    #   github.event.pull_request.user.login == 'new-developer' ||
-    #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
-
+    if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: write
-      issues: read
+      issues: write
       id-token: write
-
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,12 +26,11 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ github.token }}
-          claude_args: '--allowedTools "Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh pr review:*),Bash(git diff:*),Bash(git log:*),Bash(cargo check:*),Bash(cargo clippy:*),Bash(cargo fmt:*),View,GlobTool,GrepTool,BatchTool"'
+          claude_args: '--allowedTools "Bash(gh:*),Bash(git diff:*),Bash(git log:*),Bash(cargo check:*),Bash(cargo clippy:*),Bash(cargo fmt:*),View,GlobTool,GrepTool,BatchTool"'
           prompt: |
-            Review this PR following the Code Review Guidelines in CLAUDE.md.
-            Review every changed file, file-by-file, top-to-bottom by line number.
-            Use the severity format and tone described in CLAUDE.md.
-            End with the summary format from CLAUDE.md (blocking count, overall, next step).
-            Do NOT write or modify code — only review.
-            Always leave a review — if there are no issues, approve the PR with a short LGTM.
+            Review this PR. Follow CLAUDE.md if present.
+            Review every changed file top-to-bottom.
+            Post inline comments on specific lines using gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments.
+            Submit final review using gh pr review $PR_NUMBER (--approve, --request-changes, or --comment).
+            Do NOT write or modify code.
 
