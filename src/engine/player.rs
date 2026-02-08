@@ -2,5 +2,5 @@
 pub struct PlayerId(u32);
 
 pub struct Player {
-    stack: u32,
+    bankroll: u32,
 }
