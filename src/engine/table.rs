@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::collections::LinkedList;
+use std::collections::VecDeque;
 
 use crate::engine::bet;
 use crate::engine::card;
@@ -15,7 +16,7 @@ pub struct HoldEmTablePlayer {
 }
 
 pub struct HoldEmTable {
-    active_players: LinkedList<player::Player>,
+    active_players: VecDeque<player::Player>,
     bet_history: Vec<bet::Bet>,
     board: Option<[card::Card; 5]>,
     dealer_location: u8,
