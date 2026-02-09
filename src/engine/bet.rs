@@ -11,12 +11,12 @@ pub struct Bet {
 }
 
 impl Bet {
-    pub fn new(player_id: PlayerId, amount: u32) -> Self {
+    pub fn new(player_id: PlayerId, amount: u32, table_round: u8) -> Self {
         Self {
-            player_id: player_id,
-            amount: amount,
-            table_round: 0,
-            timestamp: chrono::offset::Utc::now(),
+            player_id,
+            amount,
+            table_round,
+            timestamp: Utc::now(),
         }
     }
 }
