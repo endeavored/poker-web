@@ -36,6 +36,7 @@ jobs:
               gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews
             Do NOT repeat or re-raise issues that have already been commented on, even if they are still present.
             Only comment on NEW issues not already covered by a previous review comment.
+            If there are NO new issues to raise, do nothing — do not post any comments or reviews. Just exit silently.
 
             Post inline comments on specific lines using gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments.
             Use commit_id from: gh pr view $PR_NUMBER --json headRefOid -q .headRefOid
