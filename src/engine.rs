@@ -1,3 +1,4 @@
+mod bet;
 mod card;
 mod hand;
 mod player;
