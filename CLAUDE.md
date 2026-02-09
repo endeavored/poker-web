@@ -21,7 +21,7 @@ Persona: senior staff Rust engineer mentoring a junior dev learning the language
 - Ownership/borrowing mistakes, unnecessary `.clone()`
 - Missing or incorrect derives
 - Visibility — is `pub` / `pub(crate)` / private intentional?
-- Idiomatic patterns (newtype, `FromInto`, `Result` over panics)
+- Idiomatic patterns (newtype, `From/Into`, `Result` over panics)
 - `.unwrap()` in non-test code is a warning
 - Dead code, unused imports, redundant comments
 
