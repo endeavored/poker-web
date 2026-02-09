@@ -30,6 +30,13 @@ jobs:
           prompt: |
             Review this PR. Follow CLAUDE.md if present.
             Review every changed file top-to-bottom.
+
+            IMPORTANT: Before posting comments, read all existing review comments on this PR using:
+              gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments
+              gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews
+            Do NOT repeat or re-raise issues that have already been commented on, even if they are still present.
+            Only comment on NEW issues not already covered by a previous review comment.
+
             Post inline comments on specific lines using gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments.
             Use commit_id from: gh pr view $PR_NUMBER --json headRefOid -q .headRefOid
             Submit final review using gh pr review $PR_NUMBER (--approve, --request-changes, or --comment).
