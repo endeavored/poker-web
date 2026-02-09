@@ -28,36 +28,18 @@ jobs:
           github_token: ${{ github.token }}
           claude_args: '--allowedTools "Bash(gh:*),Bash(git diff:*),Bash(git log:*),Bash(cargo check:*),Bash(cargo clippy:*),Bash(cargo fmt:*),View,GlobTool,GrepTool,BatchTool"'
           prompt: |
-            Review this PR. Follow CLAUDE.md if present.
-            Review every changed file top-to-bottom.
+            Review this PR following CLAUDE.md. Do NOT write or modify code.
 
-            IMPORTANT: Before posting comments, read all existing review comments on this PR using:
+            First, read existing comments to avoid repeating anything already raised:
               gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments
               gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews
-            Do NOT repeat or re-raise issues that have already been commented on, even if they are still present.
-            Only comment on NEW issues not already covered by a previous review comment.
-            If there are NO new issues to raise, do nothing — do not post any comments or reviews. Just exit silently.
+            If there are no new issues, exit silently — no comments, no review.
 
-            Post inline comments on specific lines using gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments.
-            Use commit_id from: gh pr view $PR_NUMBER --json headRefOid -q .headRefOid
+            ALL feedback MUST be posted as inline comments via gh api, NEVER in the review body.
+            Use: gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments
+            Get commit_id from: gh pr view $PR_NUMBER --json headRefOid -q .headRefOid
 
-            APPROVAL DECISION: Before submitting your final review, check which review threads are resolved using:
-              gh api graphql -f query='
-                query {
-                  repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
-                    pullRequest(number: '$PR_NUMBER') {
-                      reviewThreads(first: 100) {
-                        nodes {
-                          isResolved
-                          comments(first: 1) {
-                            nodes { body }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }'
-            Threads marked isResolved: true have been acknowledged by the author and no longer count against approval.
-            Only unresolved blocking or warning threads block approval. Nits never block approval.
-            Submit final review using gh pr review $PR_NUMBER (--approve, --request-changes, or --comment).
-            Do NOT write or modify code.
+            Before submitting final review, check resolved threads:
+              gh api graphql -f query='query { repository(owner:"${{ github.repository_owner }}", name:"${{ github.event.repository.name }}") { pullRequest(number:'$PR_NUMBER') { reviewThreads(first:100) { nodes { isResolved comments(first:1) { nodes { body } } } } } } }'
+            Resolved threads do not count against approval.
+            Submit final review via gh pr review $PR_NUMBER (--approve, --request-changes, or --comment).
