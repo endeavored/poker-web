@@ -40,5 +40,24 @@ jobs:
 
             Post inline comments on specific lines using gh api /repos/${{ github.repository }}/pulls/$PR_NUMBER/comments.
             Use commit_id from: gh pr view $PR_NUMBER --json headRefOid -q .headRefOid
+
+            APPROVAL DECISION: Before submitting your final review, check which review threads are resolved using:
+              gh api graphql -f query='
+                query {
+                  repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
+                    pullRequest(number: '$PR_NUMBER') {
+                      reviewThreads(first: 100) {
+                        nodes {
+                          isResolved
+                          comments(first: 1) {
+                            nodes { body }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }'
+            Threads marked isResolved: true have been acknowledged by the author and no longer count against approval.
+            Only unresolved blocking or warning threads block approval. Nits never block approval.
             Submit final review using gh pr review $PR_NUMBER (--approve, --request-changes, or --comment).
             Do NOT write or modify code.
