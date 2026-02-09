@@ -14,18 +14,18 @@ pub struct HoldEmTablePlayer {
     position: u8,
 }
 
-pub struct HoldEmTable<'a> {
+pub struct HoldEmTable {
     active_players: LinkedList<player::Player>,
     bet_history: Vec<bet::Bet>,
     board: Option<[card::Card; 5]>,
     dealer_location: u8,
     max_table_size: u8,
-    player_list: HashMap<player::PlayerId, &'a mut HoldEmTablePlayer>,
+    player_list: HashMap<player::PlayerId, HoldEmTablePlayer>,
     pot: u32,
     round: u8,
 }
 
-impl<'a> HoldEmTable<'a> {
+impl HoldEmTable {
     fn place_bet(&mut self, player_id: player::PlayerId, amount: u32) {
         if !self.player_list.contains_key(&player_id) {
             return;
