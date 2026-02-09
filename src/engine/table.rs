@@ -15,7 +15,7 @@ pub struct HoldEmTablePlayer {
 }
 
 pub struct HoldEmTable {
-    active_player: LinkedList<player::Player>,
+    active_players: LinkedList<player::Player>,
     bet_history: Vec<bet::Bet>,
     board: Option<[card::Card; 5]>,
     dealer_location: u8,
