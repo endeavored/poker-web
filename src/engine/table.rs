@@ -35,10 +35,9 @@ pub struct HoldEmTable {
 
 impl HoldEmTable {
     fn place_bet(&mut self, player_id: player::PlayerId, amount: u32) {
-        if !self.player_list.contains_key(&player_id) {
+        let Some(user) = self.player_list.get_mut(&player_id) else {
             return;
-        }
-        let user = self.player_list.get_mut(&player_id).unwrap();
+        };
         if user.stack < amount {
             return;
         }
