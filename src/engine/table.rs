@@ -14,7 +14,16 @@ pub struct HoldEmTablePlayer {
     position: u8,
 }
 
+#[derive(Debug, Copy, Clone)]
+pub enum TableState {
+    Preflop,
+    Flop,
+    Turn,
+    River,
+}
+
 pub struct HoldEmTable {
+    _state: TableState,
     active_players: VecDeque<player::Player>,
     bet_history: Vec<bet::Bet>,
     board: Option<[card::Card; 5]>,
@@ -22,7 +31,6 @@ pub struct HoldEmTable {
     max_table_size: u8,
     player_list: HashMap<player::PlayerId, HoldEmTablePlayer>,
     pot: u32,
-    round: u8,
 }
 
 impl HoldEmTable {
@@ -36,7 +44,28 @@ impl HoldEmTable {
         }
         user.stack -= amount;
         self.pot += amount;
-        let user_bet = bet::Bet::new(player_id, amount, self.round);
+        let user_bet = bet::Bet::new(player_id, amount, self._state);
         self.bet_history.push(user_bet);
+    }
+    fn _take_bets(&mut self) {} // TODO: Implement betting state machine
+    fn _end_game(&mut self) {}
+    fn _next_state(&mut self) {
+        let cur_state = self._state;
+        self._take_bets();
+        match cur_state {
+            TableState::Preflop => {
+                self._state = TableState::Flop;
+            }
+            TableState::Flop => {
+                self._state = TableState::Turn;
+            }
+            TableState::Turn => {
+                self._state = TableState::River;
+            }
+            TableState::River => {
+                self._end_game();
+                self._state = TableState::Preflop;
+            }
+        }
     }
 }
