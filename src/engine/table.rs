@@ -50,9 +50,8 @@ impl HoldEmTable {
     fn _take_bets(&mut self) {} // TODO: Implement betting state machine
     fn _end_game(&mut self) {}
     fn _next_state(&mut self) {
-        let cur_state = self._state;
         self._take_bets();
-        match cur_state {
+        match self._state {
             TableState::Preflop => {
                 self._state = TableState::Flop;
             }
