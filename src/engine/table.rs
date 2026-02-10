@@ -14,7 +14,7 @@ pub struct HoldEmTablePlayer {
     position: u8,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum TableState {
     Preflop,
     Flop,
