@@ -20,10 +20,13 @@ impl Default for Deck {
 }
 
 impl Deck {
-    pub fn draw_card(&mut self) -> card::Card {
-        let ind = random::RandomApi::rand_int(0, 51) as usize;
+    pub fn draw_card(&mut self) -> Option<card::Card> {
+        if self.cards.is_empty() {
+            return None;
+        }
+        let ind = random::RandomApi::rand_int(0, self.cards.len() as u32) as usize;
         let chosen: card::Card = self.cards.remove(ind);
         // TODO: Add provably fair return
-        chosen
+        Some(chosen)
     }
 }
