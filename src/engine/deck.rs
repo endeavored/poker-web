@@ -25,7 +25,7 @@ impl Deck {
             return None;
         }
         let ind = random::RandomApi::rand_int(0, self.cards.len() as u32) as usize;
-        let chosen: card::Card = self.cards.remove(ind);
+        let chosen = self.cards.remove(ind);
         // TODO: Add provably fair return
         Some(chosen)
     }
