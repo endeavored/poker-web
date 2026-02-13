@@ -26,7 +26,7 @@ pub struct HoldEmTable {
     state: TableState,
     active_players: VecDeque<player::Player>,
     bet_history: Vec<bet::Bet>,
-    board: Option<[card::Card; 5]>,
+    board: Vec<card::Card>,
     dealer_location: u8,
     max_table_size: u8,
     player_list: HashMap<player::PlayerId, HoldEmTablePlayer>,
