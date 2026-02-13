@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use strum::IntoEnumIterator;
 
 use crate::engine::card;
@@ -10,9 +11,8 @@ pub struct Deck {
 
 impl Default for Deck {
     fn default() -> Deck {
-        let iter = card::Suit::iter()
-            .zip(card::Rank::iter())
-            .map(|(s, r)| card::Card { suit: s, rank: r });
+        let product = card::Suit::iter().cartesian_product(card::Rank::iter());
+        let iter = product.map(|(s, r)| card::Card { suit: s, rank: r });
         Deck {
             cards: iter.collect::<Vec<card::Card>>(),
         }
